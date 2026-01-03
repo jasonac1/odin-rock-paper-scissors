@@ -3,6 +3,12 @@
 let humanScore = 0;
 let computerScore = 0;
 
+// util functions
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1); 
+}
+
+// game functions
 function getRandomNumber(upperBound) {
     return Math.floor(Math.random() * upperBound);
 }
@@ -60,15 +66,18 @@ function playRound(humanChoice, computerChoice) {
 
     // execution based on winner
     // score system inspired by chess (1/2 - 1/2 for ties)
+    let capitalizedHumanChoice = capitalizeFirstLetter(humanChoice);
+    let capitalizedComputerChoice = capitalizeFirstLetter(computerChoice);
+
     if(winner == "none") {
-        message = `Tie! ${humanChoice} and ${computerChoice} don't beat each other.`
+        message = `Tie! ${capitalizedHumanChoice} and ${capitalizedComputerChoice} don't beat each other.`;
         humanScore += 0.5;
         computerScore += 0.5;
     } else if(winner == "human") {
-        message = `You win! ${humanChoice} beats ${computerChoice}.`
+        message = `You win! ${capitalizedHumanChoice} beats ${capitalizedComputerChoice}.`;
         humanScore++;
     } else if(winner == "computer") {
-        message = `You lose! ${computerChoice} beats ${humanChoice}.`
+        message = `You lose! ${capitalizedComputerChoice} beats ${capitalizedHumanChoice}.`;
         computerScore++;
     }
 
