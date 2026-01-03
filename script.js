@@ -78,7 +78,7 @@ function playGame(rounds) {
             roundWinMessage = `You win! ${capitalizedHumanChoice} beats ${capitalizedComputerChoice}.`;
             humanScore++;
         } else if(winner === "computer") {
-            roundWinMessage = `You lose! ${capitalizedComputerChoice} beats ${capitalizedHumanChoice}.`;
+            roundWinMessage = `The computer wins! ${capitalizedComputerChoice} beats ${capitalizedHumanChoice}.`;
             computerScore++;
         }
 
