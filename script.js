@@ -20,3 +20,14 @@ function getComputerChoice() {
     }
     return choice;
 }
+
+function getHumanChoice() {
+    let choice = prompt("Rock, Paper or Scissors?");
+    switch(choice) {
+        case "rock":
+        case "paper":
+        case "scissors":
+            return choice;
+            break;
+    }
+}
