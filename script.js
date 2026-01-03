@@ -1,8 +1,5 @@
 "use strict";
 
-let humanScore = 0;
-let computerScore = 0;
-
 // util functions
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1); 
@@ -41,50 +38,74 @@ function getHumanChoice() {
     }
 }
 
-function playRound(humanChoice, computerChoice) {
-    let winner = "";
-    let message = "";
+function playGame(rounds) {
+    let humanScore = 0;
+    let computerScore = 0;
 
-    // human wins 
-    if( (humanChoice === "rock" && computerChoice === "scissors")
-    ||  (humanChoice === "paper" && computerChoice === "rock")
-    ||  (humanChoice === "scissors" && computerChoice === "paper") ) {
-        winner = "human";
+    function playRound(humanChoice, computerChoice) {
+        let winner = "";
+        let roundWinMessage = "";
+
+        // human wins 
+        if( (humanChoice === "rock" && computerChoice === "scissors")
+        ||  (humanChoice === "paper" && computerChoice === "rock")
+        ||  (humanChoice === "scissors" && computerChoice === "paper") ) {
+            winner = "human";
+        }
+
+        // computer wins
+        if( (humanChoice === "rock" && computerChoice === "paper")
+        ||  (humanChoice === "paper" && computerChoice === "scissors")
+        ||  (humanChoice === "scissors" && computerChoice === "rock") ) {
+            winner = "computer";
+        }
+
+        // ties
+        if(humanChoice === computerChoice) {
+            winner = "none";
+        }
+
+        // execution based on winner
+        // score system inspired by chess (1/2 - 1/2 for ties)
+        const capitalizedHumanChoice = capitalizeFirstLetter(humanChoice);
+        const capitalizedComputerChoice = capitalizeFirstLetter(computerChoice);
+
+        if(winner === "none") {
+            roundWinMessage = `Tie! ${capitalizedHumanChoice} and ${capitalizedComputerChoice} don't beat each other.`;
+            humanScore += 0.5;
+            computerScore += 0.5;
+        } else if(winner === "human") {
+            roundWinMessage = `You win! ${capitalizedHumanChoice} beats ${capitalizedComputerChoice}.`;
+            humanScore++;
+        } else if(winner === "computer") {
+            roundWinMessage = `You lose! ${capitalizedComputerChoice} beats ${capitalizedHumanChoice}.`;
+            computerScore++;
+        }
+
+        console.log(roundWinMessage);
     }
 
-    // computer wins
-    if( (humanChoice === "rock" && computerChoice === "paper")
-    ||  (humanChoice === "paper" && computerChoice === "scissors")
-    ||  (humanChoice === "scissors" && computerChoice === "rock") ) {
-        winner = "computer";
+    for(let i = 0; i < rounds; i++) {
+        let humanChoice = getHumanChoice();
+        let computerChoice = getComputerChoice();
+        playRound(humanChoice, computerChoice);
+        
+        // message is different for final round
+        let roundScoreMessage = `${i !== rounds - 1 ? "Current" : "Final"} score: You (${humanScore}) - Computer (${computerScore})`
+        console.log(roundScoreMessage);
     }
 
-    // ties
-    if(humanChoice === computerChoice) {
-        winner = "none";
+    let gameWinner = ""; // for possible future use
+    if(humanScore === computerScore) {
+        gameWinner = "none";
+        console.log("It's a tie!");
+    } else if(humanScore > computerScore) {
+        gameWinner = "human";
+        console.log("You win!");
+    } else {
+        gameWinner = "computer";
+        console.log("The computer wins!");
     }
-
-    // execution based on winner
-    // score system inspired by chess (1/2 - 1/2 for ties)
-    let capitalizedHumanChoice = capitalizeFirstLetter(humanChoice);
-    let capitalizedComputerChoice = capitalizeFirstLetter(computerChoice);
-
-    if(winner == "none") {
-        message = `Tie! ${capitalizedHumanChoice} and ${capitalizedComputerChoice} don't beat each other.`;
-        humanScore += 0.5;
-        computerScore += 0.5;
-    } else if(winner == "human") {
-        message = `You win! ${capitalizedHumanChoice} beats ${capitalizedComputerChoice}.`;
-        humanScore++;
-    } else if(winner == "computer") {
-        message = `You lose! ${capitalizedComputerChoice} beats ${capitalizedHumanChoice}.`;
-        computerScore++;
-    }
-
-    console.log(message);
 }
 
-let humanChoice = getHumanChoice();
-let computerChoice = getComputerChoice();
-
-playRound(humanChoice, computerChoice);
+playGame(5);
